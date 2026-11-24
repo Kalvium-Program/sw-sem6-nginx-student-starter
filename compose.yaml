@@ -1,0 +1,15 @@
+name: events-proxy
+services:
+  app:
+    build: ./app
+    environment:
+      PORT: "5000"
+    # No ports here. Only Nginx can reach the app.
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "127.0.0.1:8091:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+    depends_on:
+      - app
